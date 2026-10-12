@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>CoinRush Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+        .header {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #f1c40f;
+        }
+        .coin-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .coin {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, #f39c12, #d35400);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            box-shadow: 0 0 30px rgba(241, 196, 15, 0.5);
+            cursor: pointer;
+            transition: transform 0.05s ease;
+        }
+        .coin:active {
+            transform: scale(0.95);
+        }
+        .footer {
+            margin-bottom: 30px;
+            font-size: 18px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>CoinRush</h1>
+        <div class="score" id="score">0</div>
+    </div>
+
+    <div class="coin-container">
+        <div class="coin" id="tap-coin">⚡</div>
+    </div>
+
+    <div class="footer">
+        Har bir bosish: <b>+1 Coin</b>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Ekran bo'ylab yoyish
+
+        let score = 0;
+        const scoreElement = document.getElementById('score');
+        const coinElement = document.getElementById('tap-coin');
+
+        coinElement.addEventListener('click', () => {
+            score++;
+            scoreElement.innerText = score;
+
+            // Telegram orqali ma'lumotni saqlashga yuborish
+            if (tg.CloudStorage) {
+                tg.CloudStorage.setItem('user_score', score.toString());
+            }
+        });
+    </script>
+</body>
+</html>
